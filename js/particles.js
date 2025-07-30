@@ -53,13 +53,11 @@ class ParticleSystem {
   }
 
   bindEvents() {
-    // Use window for mouse events instead of canvas to catch events anywhere
     window.addEventListener('resize', () => {
       this.resizeCanvas();
       this.createParticles();
     });
 
-    // Listen to mousemove on document to catch all mouse movement
     document.addEventListener('mousemove', (e) => {
       this.mouse.x = e.clientX;
       this.mouse.y = e.clientY;
@@ -70,7 +68,6 @@ class ParticleSystem {
       this.mouse.y = null;
     });
 
-    // Touch support for mobile
     document.addEventListener('touchmove', (e) => {
       e.preventDefault();
       const touch = e.touches[0];
@@ -83,7 +80,6 @@ class ParticleSystem {
       this.mouse.y = null;
     });
 
-    // Scroll tracking
     window.addEventListener('scroll', () => {
       this.updateScroll();
     });
@@ -96,7 +92,6 @@ class ParticleSystem {
 
   updateParticles() {
     this.particles.forEach(particle => {
-      // Mouse interaction
       if (this.mouse.x !== null && this.mouse.y !== null) {
         const dx = this.mouse.x - particle.x;
         const dy = this.mouse.y - particle.y;
@@ -106,19 +101,16 @@ class ParticleSystem {
           const angle = Math.atan2(dy, dx);
           const force = (this.config.mouseRadius - distance) / this.config.mouseRadius;
           
-          // Repel particles from mouse
           particle.vx -= Math.cos(angle) * force * this.config.mouseForce;
           particle.vy -= Math.sin(angle) * force * this.config.mouseForce;
         }
       }
 
-      // Return to base position
       const returnX = (particle.baseX - particle.x) * this.config.returnForce;
       const returnY = (particle.baseY - particle.y) * this.config.returnForce;
       particle.vx += returnX;
       particle.vy += returnY;
 
-      // Apply friction
       particle.vx *= 0.98;
       particle.vy *= 0.98;
 
