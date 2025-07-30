@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CelestialDev - Portfolio</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS for animation -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <!-- Vanilla Tilt -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-gray-900 text-white scroll-smooth relative min-h-screen overflow-x-hidden">
+
+  <!-- Canvas Background -->
+  <canvas id="bgCanvas" class="fixed top-0 left-0 w-full h-full z-0 pointer-events-auto"></canvas>
+
+  <!-- Navbar -->
+  <header class="fixed top-0 left-0 w-full bg-gray-800/80 backdrop-blur-sm shadow z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold tracking-wide">CelestialDev</h1>
+      <nav class="space-x-6 text-sm">
+        <a href="#home" class="hover:text-cyan-400 transition-colors">Home</a>
+        <a href="#about" class="hover:text-cyan-400 transition-colors">About</a>
+        <a href="#projects" class="hover:text-cyan-400 transition-colors">Projects</a>
+        <a href="#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="h-screen flex items-center justify-center text-center bg-transparent pt-20 z-10 relative">
+    <div data-aos="fade-up" class="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+      <h2 class="text-5xl font-bold mb-4">Hi, I'm 
+        <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+          CelestialDev
+        </span>
+      </h2>
+      <p class="text-lg text-gray-300 mb-6">A creative developer building Roblox Experiences and more.</p>
+      <a href="#projects" class="px-6 py-3 bg-white text-black font-semibold rounded shadow hover:scale-105 transition-all duration-300 hover:bg-cyan-400">View My Work</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-20 px-6 bg-black/40 backdrop-blur-sm z-10 relative">
+    <div class="max-w-4xl mx-auto" data-aos="fade-right">
+      <div class="bg-black/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+        <h3 class="text-3xl font-bold mb-4">About Me</h3>
+        <p class="text-gray-300 text-lg">Roblox dev since 2018. Started with LuaU, now fluent in Python, C, C#, PHP, HTML, CSS, and JS. I've worked on FPS, RPG, horror, and simulator systems for both client-side and server systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-20 px-6 z-10 relative">
+    <div class="max-w-6xl mx-auto text-center" data-aos="zoom-in">
+      <div class="bg-black/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+        <h3 class="text-3xl font-bold mb-10">Projects</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+          <div class="project-card rounded-xl overflow-hidden transform transition hover:scale-105 hover:shadow-xl duration-300 bg-black/50 backdrop-blur-sm border border-white/10" data-aos="fade-up">
+            <a href="project-advanced-place.html">
+              <img src="assets/images/ADVANCEDSYSTEM.png" alt="Advanced Place System" class="w-full h-48 object-cover" />
+              <div class="p-4">
+                <h4 class="text-xl font-semibold mb-2">Advanced Place Systems</h4>
+                <p class="text-gray-300 text-sm">Precise grid snapping, live placement tool using raycasting and more.</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="project-card rounded-xl overflow-hidden transform transition hover:scale-105 hover:shadow-xl duration-300 bg-black/50 backdrop-blur-sm border border-white/10" data-aos="fade-up" data-aos-delay="100">
+            <a href="project-vfx.html">
+              <img src="assets/images/visualeffects.png" alt="VFX Effects" class="w-full h-48 object-cover" />
+              <div class="p-4">
+                <h4 class="text-xl font-semibold mb-2">VFX Showcase</h4>
+                <p class="text-gray-300 text-sm">A little showcase of some Animated Visual Effects I've made.</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="project-card rounded-xl overflow-hidden transform transition hover:scale-105 hover:shadow-xl duration-300 bg-black/50 backdrop-blur-sm border border-white/10" data-aos="fade-up" data-aos-delay="200">
+            <a href="project-ui.html">
+              <img src="assets/images/GAMEExploits.png" alt="Game Exploits" class="w-full h-48 object-cover" />
+              <div class="p-4">
+                <h4 class="text-xl font-semibold mb-2">Game Exploits</h4>
+                <p class="text-gray-300 text-sm">Some of the exploits I've made with the goal to extend my knowledge of programming in LuaU.</p>
+              </div>
+            </a>
+          </div>
+
+          <div class="project-card rounded-xl overflow-hidden transform transition hover:scale-105 hover:shadow-xl duration-300 bg-black/50 backdrop-blur-sm border border-white/10" data-aos="fade-up" data-aos-delay="300">
+            <a href="game-places.html">
+              <img src="assets/images/SIMULATORS.png" alt="Games" class="w-full h-48 object-cover" />
+              <div class="p-4">
+                <h4 class="text-xl font-semibold mb-2">Games</h4>
+                <p class="text-gray-300 text-sm">Some of the games I have worked on.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 px-6 bg-black/40 backdrop-blur-sm z-10 relative">
+    <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
+      <div class="bg-black/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+        <h3 class="text-3xl font-bold mb-6">Get In Touch</h3>
+        <p class="text-gray-300 mb-6">Want to work together or have a question? Reach out!</p>
+        <a href="email.html" class="px-6 py-3 bg-white text-black font-semibold rounded hover:scale-105 transition-all duration-300 hover:bg-cyan-400">Email Me</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-sm text-gray-400 bg-black/60 backdrop-blur-sm z-10 relative border-t border-white/10">
+    © 2025 CelestialDev. All rights reserved.
+  </footer>
+
+  <!-- AOS Init & Vanilla Tilt -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true
+    });
+    
+    VanillaTilt.init(document.querySelectorAll(".project-card"), {
+      max: 10,
+      speed: 400,
+      glare: true,
+      "max-glare": 0.2,
+    });
+  </script>
+
+  <!-- Particle System -->
+  <script src="js/particles.js"></script>
+
+  <!-- Main JS (if you have additional scripts) -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>

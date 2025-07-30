@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - CelestialDev</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS for animation -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <style>
+    /* Enhanced Professional Scrollbar */
+    body::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    body::-webkit-scrollbar-track {
+      background: linear-gradient(180deg, #1a1a1a 0%, #1f2937 50%, #1a1a1a 100%);
+      border-radius: 8px;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #4a4a52 0%, #312f40 50%, #2a2a32 100%);
+      border-radius: 8px;
+      border: 1.5px solid #1a1a1a;
+      box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    body::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #5a5a62 0%, #413f50 50%, #3a3a42 100%);
+      box-shadow: 
+        0 3px 10px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 0 12px rgba(255, 255, 255, 0.08);
+      transform: scaleX(1.1);
+    }
+
+    .form-field {
+      transition: all 0.3s ease;
+    }
+
+    .form-field:focus {
+      box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.3);
+      border-color: #22d3ee;
+    }
+
+    .loading {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .success-animation {
+      animation: checkmark 0.6s ease-in-out;
+    }
+
+    @keyframes checkmark {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white scroll-smooth relative min-h-screen overflow-x-hidden">
+
+  <!-- Canvas Background -->
+  <canvas id="bgCanvas" class="fixed top-0 left-0 w-full h-full z-0"></canvas>
+
+  <!-- Navbar -->
+  <header class="fixed top-0 left-0 w-full bg-gray-800/80 backdrop-blur-sm shadow z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold tracking-wide hover:text-cyan-400 transition-colors">CelestialDev</a>
+      <nav class="space-x-6 text-sm">
+        <a href="index.html#home" class="hover:text-cyan-400 transition-colors">Home</a>
+        <a href="index.html#about" class="hover:text-cyan-400 transition-colors">About</a>
+        <a href="index.html#projects" class="hover:text-cyan-400 transition-colors">Projects</a>
+        <a href="index.html#contact" class="hover:text-cyan-400 transition-colors">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contact Form -->
+  <section class="min-h-screen flex items-center justify-center py-20 px-6 z-10 relative">
+    <div class="max-w-2xl w-full" data-aos="fade-up">
+      <div class="bg-black/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+        <div class="text-center mb-8">
+          <h1 class="text-4xl font-bold mb-2">
+            <span class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+              Get In Touch
+            </span>
+          </h1>
+          <p class="text-gray-300">Let's discuss your next project or collaboration</p>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="hidden bg-green-500/20 border border-green-500/30 rounded-xl p-4 mb-6 text-center">
+          <div class="flex items-center justify-center mb-2">
+            <svg class="w-8 h-8 text-green-400 success-animation" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <h3 class="text-green-400 font-semibold mb-1">Message Sent Successfully!</h3>
+          <p class="text-green-300 text-sm">Thank you for reaching out. I'll get back to you soon!</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="hidden bg-red-500/20 border border-red-500/30 rounded-xl p-4 mb-6 text-center">
+          <div class="flex items-center justify-center mb-2">
+            <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-red-400 font-semibold mb-1">Oops! Something went wrong</h3>
+          <p class="text-red-300 text-sm" id="errorText">Please try again later or contact me directly.</p>
+        </div>
+
+        <!-- Contact Form -->
+        <form id="contactForm" class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-300 mb-2">
+                First Name <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                class="form-field w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none"
+                placeholder="John"
+              />
+            </div>
+            <div>
+              <label for="surname" class="block text-sm font-medium text-gray-300 mb-2">
+                Last Name <span class="text-red-400">*</span>
+              </label>
+              <input
+                type="text"
+                id="surname"
+                name="surname"
+                required
+                class="form-field w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none"
+                placeholder="Doe"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
+              Email Address <span class="text-red-400">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="form-field w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none"
+              placeholder="john.doe@example.com"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="discord" class="block text-sm font-medium text-gray-300 mb-2">
+                Discord Username
+                <span class="text-gray-500 text-xs">(optional)</span>
+              </label>
+              <input
+                type="text"
+                id="discord"
+                name="discord"
+                class="form-field w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none"
+                placeholder="username#1234"
+              />
+            </div>
+            <div>
+              <label for="telegram" class="block text-sm font-medium text-gray-300 mb-2">
+                Telegram Username
+                <span class="text-gray-500 text-xs">(optional)</span>
+              </label>
+              <input
+                type="text"
+                id="telegram"
+                name="telegram"
+                class="form-field w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none"
+                placeholder="@username"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="company" class="block text-sm font-medium text-gray-300 mb-2">
+              Company/Organization
+              <span class="text-gray-500 text-xs">(optional)</span>
+            </label>
+            <input
+              type="text"
+              id="company"
+              name="company"
+              class="form-field w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none"
+              placeholder="Your Company"
+            />
+          </div>
+
+          <div>
+            <label for="subject" class="block text-sm font-medium text-gray-300 mb-2">
+              Subject <span class="text-red-400">*</span>
+            </label>
+            <select
+              id="subject"
+              name="subject"
+              required
+              class="form-field w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none"
+            >
+              <option value="">Select a subject...</option>
+              <option value="Roblox Development">Roblox Development</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Game Scripting">Game Scripting</option>
+              <option value="VFX Creation">VFX Creation</option>
+              <option value="UI/UX Design">UI/UX Design</option>
+              <option value="Collaboration">Collaboration</option>
+              <option value="Question">General Question</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="budget" class="block text-sm font-medium text-gray-300 mb-2">
+              Project Budget
+              <span class="text-gray-500 text-xs">(optional)</span>
+            </label>
+            <select
+              id="budget"
+              name="budget"
+              class="form-field w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none"
+            >
+              <option value="">Select budget range...</option>
+              <option value="Under $500">Under $500</option>
+              <option value="$500 - $1,000">$500 - $1,000</option>
+              <option value="$1,000 - $2,500">$1,000 - $2,500</option>
+              <option value="$2,500 - $5,000">$2,500 - $5,000</option>
+              <option value="$5,000+">$5,000+</option>
+              <option value="Long-term Partnership">Long-term Partnership</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-300 mb-2">
+              Message <span class="text-red-400">*</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              rows="5"
+              class="form-field w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none resize-none"
+              placeholder="Tell me about your project or question..."
+            ></textarea>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 pt-4">
+            <button
+              type="submit"
+              id="submitBtn"
+              class="flex-1 px-6 py-3 bg-white text-black font-semibold rounded-xl hover:scale-105 transition-all duration-300 hover:bg-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            >
+              <span id="submitText">Send Message</span>
+              <span id="loadingSpinner" class="hidden">
+                <svg class="loading inline w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Sending...
+              </span>
+            </button>
+            <a
+              href="index.html"
+              class="flex-1 sm:flex-none px-6 py-3 bg-transparent border border-white/20 text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-300 text-center"
+            >
+              Back to Home
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-sm text-gray-400 bg-black/60 backdrop-blur-sm z-10 relative border-t border-white/10">
+    © 2025 CelestialDev. All rights reserved.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true
+    });
+  </script>
+
+  <!-- Particle System -->
+  <script>
+    class ParticleSystem {
+      constructor(canvasId) {
+        this.canvas = document.getElementById(canvasId);
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.mouse = { x: null, y: null };
+        this.scroll = { y: 0 };
+        this.animationId = null;
+        
+        // Configuration
+        this.config = {
+          particleCount: 120,
+          maxDistance: 150,
+          mouseRadius: 200,
+          particleSpeed: 0.5,
+          lineOpacity: 0.15,
+          particleOpacity: 0.8,
+          mouseForce: 0.3,
+          returnForce: 0.02,
+          scrollForce: 0.8,
+          scrollDamping: 0.95
+        };
+
+        this.init();
+      }
+
+      init() {
+        this.resizeCanvas();
+        this.createParticles();
+        this.bindEvents();
+        this.animate();
+      }
+
+      resizeCanvas() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+      }
+
+      createParticles() {
+        this.particles = [];
+        for (let i = 0; i < this.config.particleCount; i++) {
+          this.particles.push({
+            x: Math.random() * this.canvas.width,
+            y: Math.random() * this.canvas.height,
+            baseX: Math.random() * this.canvas.width,
+            baseY: Math.random() * this.canvas.height,
+            vx: (Math.random() - 0.5) * this.config.particleSpeed,
+            vy: (Math.random() - 0.5) * this.config.particleSpeed,
+            size: Math.random() * 2 + 1,
+            opacity: Math.random() * 0.5 + 0.5
+          });
+        }
+      }
+
+      bindEvents() {
+        // Use window/document for mouse events instead of canvas
+        window.addEventListener('resize', () => {
+          this.resizeCanvas();
+          this.createParticles();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+          this.mouse.x = e.clientX;
+          this.mouse.y = e.clientY;
+        });
+
+        document.addEventListener('mouseleave', () => {
+          this.mouse.x = null;
+          this.mouse.y = null;
+        });
+
+        // Touch support for mobile
+        document.addEventListener('touchmove', (e) => {
+          e.preventDefault();
+          const touch = e.touches[0];
+          this.mouse.x = touch.clientX;
+          this.mouse.y = touch.clientY;
+        }, { passive: false });
+
+        document.addEventListener('touchend', () => {
+          this.mouse.x = null;
+          this.mouse.y = null;
+        });
+
+        // Scroll tracking
+        window.addEventListener('scroll', () => {
+          this.updateScroll();
+        });
+      }
+
+      updateScroll() {
+        const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+        this.scroll.y = currentScrollY;
+      }
+
+      updateParticles() {
+        this.particles.forEach(particle => {
+          // Mouse interaction
+          if (this.mouse.x !== null && this.mouse.y !== null) {
+            const dx = this.mouse.x - particle.x;
+            const dy = this.mouse.y - particle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < this.config.mouseRadius) {
+              const angle = Math.atan2(dy, dx);
+              const force = (this.config.mouseRadius - distance) / this.config.mouseRadius;
+              
+              // Repel particles from mouse
+              particle.vx -= Math.cos(angle) * force * this.config.mouseForce;
+              particle.vy -= Math.sin(angle) * force * this.config.mouseForce;
+            }
+          }
+
+          // Return to base position
+          const returnX = (particle.baseX - particle.x) * this.config.returnForce;
+          const returnY = (particle.baseY - particle.y) * this.config.returnForce;
+          particle.vx += returnX;
+          particle.vy += returnY;
+
+          // Apply friction
+          particle.vx *= 0.98;
+          particle.vy *= 0.98;
+
+          // Update position
+          particle.x += particle.vx;
+          particle.y += particle.vy;
+
+          // Boundary check
+          if (particle.x < 0 || particle.x > this.canvas.width) {
+            particle.vx *= -0.5;
+            particle.x = Math.max(0, Math.min(this.canvas.width, particle.x));
+          }
+          if (particle.y < 0 || particle.y > this.canvas.height) {
+            particle.vy *= -0.5;
+            particle.y = Math.max(0, Math.min(this.canvas.height, particle.y));
+          }
+        });
+      }
+
+      drawParticles() {
+        this.ctx.save();
+        // Translate the entire canvas based on scroll position
+        this.ctx.translate(0, -this.scroll.y * 0.5);
+        
+        // Draw particles
+        this.particles.forEach(particle => {
+          this.ctx.beginPath();
+          this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          this.ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity * this.config.particleOpacity})`;
+          this.ctx.fill();
+        });
+        
+        this.ctx.restore();
+      }
+
+      drawConnections() {
+        this.ctx.save();
+        // Translate the entire canvas based on scroll position
+        this.ctx.translate(0, -this.scroll.y * 0.5);
+        
+        // Draw connections between nearby particles
+        for (let i = 0; i < this.particles.length; i++) {
+          for (let j = i + 1; j < this.particles.length; j++) {
+            const dx = this.particles[i].x - this.particles[j].x;
+            const dy = this.particles[i].y - this.particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < this.config.maxDistance) {
+              const opacity = (1 - distance / this.config.maxDistance) * this.config.lineOpacity;
+              
+              this.ctx.beginPath();
+              this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+              this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+              this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+              this.ctx.lineWidth = 1;
+              this.ctx.stroke();
+            }
+          }
+        }
+        
+        this.ctx.restore();
+      }
+
+      drawMouseConnections() {
+        if (this.mouse.x === null || this.mouse.y === null) return;
+
+        this.ctx.save();
+        // Apply scroll offset to mouse connections too
+        const adjustedMouseY = this.mouse.y + this.scroll.y * 0.5;
+
+        // Draw connections from mouse to nearby particles
+        this.particles.forEach(particle => {
+          const dx = this.mouse.x - particle.x;
+          const dy = adjustedMouseY - particle.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < this.config.mouseRadius) {
+            const opacity = (1 - distance / this.config.mouseRadius) * 0.3;
+            
+            this.ctx.beginPath();
+            this.ctx.moveTo(particle.x, particle.y - this.scroll.y * 0.5);
+            this.ctx.lineTo(this.mouse.x, this.mouse.y);
+            this.ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+            this.ctx.lineWidth = 2;
+            this.ctx.stroke();
+          }
+        });
+
+        // Draw mouse cursor effect
+        this.ctx.beginPath();
+        this.ctx.arc(this.mouse.x, this.mouse.y, 4, 0, Math.PI * 2);
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        this.ctx.fill();
+
+        // Draw mouse glow
+        const gradient = this.ctx.createRadialGradient(
+          this.mouse.x, this.mouse.y, 0,
+          this.mouse.x, this.mouse.y, 30
+        );
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.1)');
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        
+        this.ctx.beginPath();
+        this.ctx.arc(this.mouse.x, this.mouse.y, 30, 0, Math.PI * 2);
+        this.ctx.fillStyle = gradient;
+        this.ctx.fill();
+        
+        this.ctx.restore();
+      }
+
+      animate() {
+        // Clear canvas with black background
+        this.ctx.save();
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.restore();
+
+        this.updateParticles();
+        this.drawConnections();
+        this.drawParticles();
+        this.drawMouseConnections();
+
+        this.animationId = requestAnimationFrame(() => this.animate());
+      }
+
+      destroy() {
+        if (this.animationId) {
+          cancelAnimationFrame(this.animationId);
+        }
+        // Clean up event listeners
+        window.removeEventListener('resize', this.resizeCanvas);
+        window.removeEventListener('scroll', this.updateScroll);
+        document.removeEventListener('mousemove', this.bindEvents);
+        document.removeEventListener('mouseleave', this.bindEvents);
+        document.removeEventListener('touchmove', this.bindEvents);
+        document.removeEventListener('touchend', this.bindEvents);
+      }
+    }
+
+    // Initialize particle system
+    document.addEventListener('DOMContentLoaded', () => {
+      new ParticleSystem('bgCanvas');
+    });
+  </script>
+
+  <!-- Discord Webhook Form Handler -->
+  <script>
+    const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1400082613569458277/L96v8qTi390yMKVHQ92wz56Fl5LfVCiVZatvpqPH5Bxfoi73-ndJZQuU-yXu3QvibwfT'; // Replace with your actual webhook URL
+
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const submitText = document.getElementById('submitText');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      const successMessage = document.getElementById('successMessage');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      // Disable button and show loading
+      submitBtn.disabled = true;
+      submitText.classList.add('hidden');
+      loadingSpinner.classList.remove('hidden');
+      
+      // Hide previous messages
+      successMessage.classList.add('hidden');
+      errorMessage.classList.add('hidden');
+      
+      // Get form data
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+      
+      // Create Discord embed
+      const embed = {
+        embeds: [{
+          title: "🚀 New Contact Form Submission",
+          color: 0x00D2FF, // Cyan color
+          timestamp: new Date().toISOString(),
+          fields: [
+            {
+              name: "👤 Name",
+              value: `${data.name} ${data.surname}`,
+              inline: true
+            },
+            {
+              name: "📧 Email",
+              value: data.email,
+              inline: true
+            },
+            {
+              name: "📋 Subject",
+              value: data.subject || "Not specified",
+              inline: true
+            }
+          ]
+        }]
+      };
+
+      // Add optional fields if they exist
+      if (data.discord) {
+        embed.embeds[0].fields.push({
+          name: "🎮 Discord",
+          value: data.discord,
+          inline: true
+        });
+      }
+
+      if (data.telegram) {
+        embed.embeds[0].fields.push({
+          name: "💬 Telegram",
+          value: data.telegram,
+          inline: true
+        });
+      }
+
+      if (data.company) {
+        embed.embeds[0].fields.push({
+          name: "🏢 Company",
+          value: data.company,
+          inline: true
+        });
+      }
+
+      if (data.budget) {
+        embed.embeds[0].fields.push({
+          name: "💰 Budget",
+          value: data.budget,
+          inline: true
+        });
+      }
+
+      // Add message
+      embed.embeds[0].fields.push({
+        name: "💬 Message",
+        value: data.message.length > 1024 ? data.message.substring(0, 1021) + "..." : data.message,
+        inline: false
+      });
+
+      try {
+        const response = await fetch(DISCORD_WEBHOOK_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(embed)
+        });
+
+        if (response.ok) {
+          // Success
+          successMessage.classList.remove('hidden');
+          this.reset(); // Clear form
+          
+          // Scroll to success message
+          successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          throw new Error('Failed to send message');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        errorMessage.classList.remove('hidden');
+        document.getElementById('errorText').textContent = 'Failed to send message. Please try again or contact me directly.';
+        
+        // Scroll to error message
+        errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } finally {
+        // Re-enable button and hide loading
+        submitBtn.disabled = false;
+        submitText.classList.remove('hidden');
+        loadingSpinner.classList.add('hidden');
+      }
+    });
+  </script>
+
+</body>
+</html>

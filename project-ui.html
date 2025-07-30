@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Place System</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+  
+  <style>
+    #bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+  <!-- Particle system canvas background -->
+  <canvas id="bgCanvas"></canvas>
+
+  <div class="max-w-6xl mx-auto px-6 py-12">
+    <h1 class="text-4xl font-bold text-cyan-400 mb-4">Roblox Exploits</h1>
+    <p class="text-gray-300 mb-10 text-lg">FPS, Obbies, Simulators and so on.</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <a href="assets\images\CeleXHubArsenalScript.jpg" class="glightbox">
+        <img src="assets\images\CeleXHubArsenalScript.jpg" class="rounded shadow hover:scale-105 transition" />
+      </a>
+      <a href="assets\images\GlobalRankScript.png" class="glightbox">
+        <img src="assets\images\GlobalRankScript.png" class="rounded shadow hover:scale-105 transition" />
+      </a>
+    </div>
+
+    <div class="mt-10">
+      <a href="index.html" class="text-cyan-400 hover:underline">&larr; Back to Portfolio</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+  <script>const lightbox = GLightbox();</script>
+
+  <script src="js/particles.js"></script>
+</body>
+</html>
