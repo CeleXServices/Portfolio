@@ -13,9 +13,9 @@ document.querySelectorAll("a[href^='#']").forEach(anchor => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  
+
   document.body.style.webkitOverflowScrolling = 'touch';
-  
+
   let supportsPassive = false;
   try {
     const opts = Object.defineProperty({}, 'passive', {
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('touchstart', function() {}, { passive: true });
     document.addEventListener('touchmove', function() {}, { passive: true });
   }
-  
+
   let lastTouchEnd = 0;
   document.addEventListener('touchend', function (event) {
     const now = (new Date()).getTime();
@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', function() {
   handleViewportChange();
   window.addEventListener('resize', handleViewportChange);
   window.addEventListener('orientationchange', handleViewportChange);
+
+  if ('ontouchstart' in window) {
+    document.body.classList.add('touch-device');
+  }
 });
 
 function disableBodyScroll() {
